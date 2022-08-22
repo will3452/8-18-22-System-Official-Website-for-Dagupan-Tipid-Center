@@ -10,6 +10,10 @@
     <b-collapse id="nav-collapse" is-nav>
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto" :small="true" :fill="true">
+      <b-nav-item href="/home" v-if="auth" class="text-uppercase">
+            <b-icon-house-fill></b-icon-house-fill>
+            Home
+        </b-nav-item>
         <b-nav-item href="/cart" class="text-uppercase">
                 <b-icon-cart4></b-icon-cart4>
                 Cart
@@ -22,6 +26,7 @@
             <b-icon-person></b-icon-person>
             Sign Up
         </b-nav-item>
+
         <b-nav-item href="#"  v-b-toggle.main-menu v-if="auth" class="text-uppercase">
             <b-icon-menu-app></b-icon-menu-app>
             Menu
@@ -46,9 +51,8 @@
         <div class="p-3">
           <nav class="mb-3">
             <b-nav vertical>
-              <b-nav-item active @click="hide">Active</b-nav-item>
-              <b-nav-item href="#link-1" @click="hide">Link</b-nav-item>
-              <b-nav-item href="#link-2" @click="hide">Another Link</b-nav-item>
+              <b-nav-item href="/category" @click="hide">Categories</b-nav-item>
+              <b-nav-item href="/products" @click="hide">Products</b-nav-item>
             </b-nav>
           </nav>
           <!-- <b-button variant="close" block @click="hide">C</b-button> -->

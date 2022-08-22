@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,4 +24,13 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/logout', function () {
     auth()->logout();
     return redirect('/');
+});
+
+Route::middleware(['auth'])->group(function () {
+    //category
+    Route::name('category.')->prefix('category')->group(function () {
+        Route::get('/', [CategoryController::class, 'index']);
+        Route::post('/', [CategoryController::class, 'store']);
+        Route::get('/all', [CategoryController::class, 'getData']);
+    });
 });

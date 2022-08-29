@@ -5,7 +5,28 @@
             <b-nav-item :active="option == 2" @click="show(2)">Create new category</b-nav-item>
         </b-nav>
         <div v-if="option == 1">
-            <b-table hover :items="items" bordered />
+            <table class="table table-sm table-bordered" id="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in items" :key="item.id">
+                        <td>
+                            {{item.name}}
+                        </td>
+                        <td>
+                            <b-button size="sm" variant="danger" @click="deleteItem(item.id)"><b-icon-trash></b-icon-trash> remove</b-button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <div v-if="option == 2">
             <b-card title="New">
@@ -36,10 +57,24 @@
             }
         },
         methods: {
+            async deleteItem (id) {
+                try {
+                    await window.axios.delete('/category/' + id)
+                    this.$bvToast.toast('Record deleted', {title:'Success', variant: 'success', solid: true})
+                } catch (err) {
+                    this.$bvToast.toast('Error', {title: 'Error', variant: 'danger', solid: true })
+                    console.log('Error', err)
+                } finally {
+                    this.loadData()
+                }
+            },
             async loadData () {
                 let response = await window.axios.get('/category/all')
                 console.log(response)
-                this.items = Object.values(response.data)
+                this.items = Object.values(response.data).map( e =>  {
+                    e.action = ''
+                    return e
+                })
             },
             show (option) {
                 if (option == 1) {

@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ImageUploadController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,5 +35,26 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', [CategoryController::class, 'index']);
         Route::post('/', [CategoryController::class, 'store']);
         Route::get('/all', [CategoryController::class, 'getData']);
+        Route::delete('/{id}', [CategoryController::class, 'destroy']);
     });
+
+    Route::name('product.')->prefix('products')->group(function () {
+        Route::get('/', [ProductController::class, 'index']);
+        Route::post('/', [ProductController::class, 'store']);
+        Route::put('/{id}', [ProductController::class, 'update']);
+        Route::delete('/{id}', [ProductController::class, 'destroy']);
+    });
+
+    Route::name('carts.')->prefix('cart')->group(function () {
+        Route::get('/exists/{id}', [CartController::class, 'itemIsInCart']);
+        Route::get('/', [CartController::class, 'index']);
+        Route::get('/{id}', [CartController::class, 'addToCart']);
+        Route::post('/', [CartController::class, 'store']);
+        Route::delete('/{id}', [CartController::class, 'destroy']);
+    });
+
 });
+
+
+Route::get('/products/all', [ProductController::class, 'getData']);
+Route::post('image-upload', [ImageUploadController::class, 'upload']);

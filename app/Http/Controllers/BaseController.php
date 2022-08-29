@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 class BaseController extends Controller {
-    private $model;
+    public $model;
     public function __construct($model)
     {
         $this->model = $model;
@@ -15,11 +15,13 @@ class BaseController extends Controller {
         return ($this->model)::create($data);
     }
 
-    public function update (Request $request, $model) {
+    public function update (Request $request, $id) {
         $data = $request->all();
+        $model = ($this->model)::find($id);
         $model->update($data);
     }
-    public function destroy (Request $request, $model) {
+    public function destroy (Request $request, $id) {
+        $model = ($this->model)::find($id);
         $model->delete();
         return 1;
     }

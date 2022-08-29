@@ -9,7 +9,8 @@ require('./bootstrap');
 window.Vue = require('vue').default;
 window.Vue.use(require('bootstrap-vue'))
 window.Vue.use(require('bootstrap-vue').BootstrapVueIcons )
-
+import _mixins from './components/_mixins.js'
+window.Vue.mixin(_mixins)
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
